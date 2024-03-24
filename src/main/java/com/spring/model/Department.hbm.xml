@@ -1,0 +1,15 @@
+<class name="com.spring.model.Department" table="department">
+    <!-- id definition -->
+    <id name="id" type="java.lang.Integer">
+        <column name="dept_id"/>
+        <generator class="sequence"> <!-- Use sequence generator if required -->
+            <param name="sequence_name">your_sequence_name</param> <!-- Specify your sequence name if using sequence generator -->
+        </generator>
+    </id>
+
+    <!-- name property definition (moved before code) -->
+    <property name="name" column="dept_name" update="true"/>
+
+    <!-- code property definition with length specified -->
+    <property name="code" column="dept_code" length="20" update="true"/> <!-- adjust length as per your requirements -->
+</class>
