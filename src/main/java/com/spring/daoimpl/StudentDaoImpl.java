@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.orm.hibernate5.HibernateTemplate;
 
 import com.spring.dao.DepartmentDao;
 import com.spring.dao.StudentDao;
@@ -14,11 +15,11 @@ import com.spring.model.Student;
 
 public class StudentDaoImpl implements StudentDao{
 	
-	private SessionFactory sessionFactory;
+	private HibernateTemplate hibernateTemplate;
 	private DepartmentDao myCustomDepartmentDao;
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
+		this.hibernateTemplate = hibernateTemplate;
 	}
 	
 	public void setMyCustomDepartmentDao(DepartmentDao myCustomDepartmentDao) {
@@ -28,54 +29,31 @@ public class StudentDaoImpl implements StudentDao{
 	@Override
 	public void save(Student student) {
 		// TODO Auto-generated method stub
-		Session session = this.sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.persist(student);
-		tx.commit();
-		session.close();
+		hibernateTemplate.save(student);
 	}
 
 	@Override
 	public void update(Student student) {
 		// TODO Auto-generated method stub
-		Session session = this.sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.update(student);
-		tx.commit();
-		session.close();
+		hibernateTemplate.update(student);
 	}
 
 	@Override
 	public void delete(Student student) {
 		// TODO Auto-generated method stub
-		Session session = this.sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.delete(student);
-		tx.commit();
-		session.close();
+		hibernateTemplate.delete(student);
 	}
 
 	@Override
 	public Student findById(int studentId) {
 		// TODO Auto-generated method stub
-		Session session = this.sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		Student student = session.get(Student.class, studentId);
-		tx.commit();
-		session.close();
-		return student;
+		return hibernateTemplate.get(Student.class, studentId);
 	}
 
 	@Override
 	public List<Student> getAll() {
 		// TODO Auto-generated method stub
-		List<Student> studentList = new ArrayList<>();
-		Session session = this.sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		studentList = session.createQuery("From Student").list();
-		tx.commit();
-		session.close();
-		return studentList;	
+		return hibernateTemplate.loadAll(Student.class);
 		
 	}
 }

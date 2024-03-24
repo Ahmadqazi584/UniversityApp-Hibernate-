@@ -51,13 +51,18 @@
     <tx:annotation-driven/>
 
     <!-- Other Beans and Configurations -->
-	<!-- Define DepartmentDao bean -->
-	<bean id="departmentDao" class="com.spring.daoimpl.DepartmentDaoImpl">
+    <!-- Define HibernateTemplate bean -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
 	    <property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
+	<!-- Define DepartmentDao bean -->
+	<bean id="departmentDao" class="com.spring.daoimpl.DepartmentDaoImpl">
+	    <property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	
 	<bean id="studentDao" class="com.spring.daoimpl.StudentDaoImpl">
-	    <property name="sessionFactory" ref="sessionFactory" />
+	    <property name="hibernateTemplate" ref="hibernateTemplate" />
 	    <property name="myCustomDepartmentDao" ref="departmentDao" />
 	</bean>
 
